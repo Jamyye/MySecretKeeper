@@ -10,7 +10,9 @@ import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
+import android.util.Log;
 
+import static android.content.ContentValues.TAG;
 
 
 public class MyDBHandler extends SQLiteOpenHelper {
@@ -88,12 +90,56 @@ public class MyDBHandler extends SQLiteOpenHelper {
         return sInfo;
     }
 
-    public Cursor getData(){
+    public Cursor getData(){ //pulls data into listview
         SQLiteDatabase db = this.getWritableDatabase();
         String query = "SELECT * FROM " + TABLE_SECRET;
         Cursor data = db.rawQuery(query, null);
         return data;
     }
+
+
+
+    public Cursor getItemID(String name){
+        SQLiteDatabase db = this.getWritableDatabase();
+        String query = "SELECT " + COLUMN_ID + " FROM " + TABLE_SECRET +
+                " WHERE " + COLUMN_SECRET + " = '" + name + "'";
+        Cursor data = db.rawQuery(query, null);
+        return data;
+    }
+
+    /**
+     * Updates the name field
+     * @param newName
+     * @param id
+     * @param oldName
+     */
+    public void updateName(String newName, int id, String oldName){
+        SQLiteDatabase db = this.getWritableDatabase();
+        String query = "UPDATE " + TABLE_SECRET + " SET " + COLUMN_SECRET +
+                " = '" + newName + "' WHERE " + COLUMN_ID + " = '" + id + "'" +
+                " AND " + COLUMN_SECRET + " = '" + oldName + "'";
+        Log.d(TAG, "updateName: query: " + query);
+        Log.d(TAG, "updateName: Setting name to " + newName);
+        db.execSQL(query);
+    }
+
+    /**
+     * Delete from database
+     * @param id
+     * @param name
+     */
+    public void deleteName(int id, String name){
+        SQLiteDatabase db = this.getWritableDatabase();
+        String query = "DELETE FROM " + TABLE_SECRET + " WHERE "
+                + COLUMN_ID + " = '" + id + "'" +
+                " AND " + COLUMN_SECRET + " = '" + name + "'";
+        Log.d(TAG, "deleteName: query: " + query);
+        Log.d(TAG, "deleteName: Deleting " + name + " from database.");
+        db.execSQL(query);
+    }
+
+
+
 
 
 }

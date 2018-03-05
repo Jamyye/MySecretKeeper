@@ -11,6 +11,7 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListAdapter;
 import android.widget.ListView;
+import android.widget.Toast;
 
 import java.util.ArrayList;
 
@@ -51,10 +52,34 @@ public class ListData extends AppCompatActivity {
         myListView.setAdapter(adapter);
 
         //set an onItemClickListener to the ListView
+        myListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+                String name = adapterView.getItemAtPosition(i).toString();
+                Log.d(TAG, "onItemClick: You Clicked on " + name);
 
+                Cursor data = myDB.getItemID(name); //get the id associated with that name
+                int itemID = -1;
+                while(data.moveToNext()){
+                    itemID = data.getInt(0);
+                }
+                if(itemID > -1){
+                    Log.d(TAG, "onItemClick: The ID is: " + itemID);
+                    Intent editScreenIntent = new Intent(ListData.this, EditData.class);
+                    editScreenIntent.putExtra("id",itemID);
+                    editScreenIntent.putExtra("name",name);
+                    startActivity(editScreenIntent);
+                }
+                else{
+                    toastMessage("No ID associated with that name");
+                }
+            }
+        });
     }
 
-
+    private void toastMessage(String message){
+        Toast.makeText(this,message, Toast.LENGTH_SHORT).show();
+    }
 
     
 }

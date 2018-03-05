@@ -18,7 +18,8 @@
         </activity>
         <activity android:name=".AddSecret" />
         <activity android:name=".ViewSecret" />
-        <activity android:name=".ListData"></activity>
+        <activity android:name=".ListData" />
+        <activity android:name=".EditData"></activity>
     </application>
 
 </manifest>
