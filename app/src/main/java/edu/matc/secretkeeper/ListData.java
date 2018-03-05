@@ -30,7 +30,6 @@ public class ListData extends AppCompatActivity {
 
             populateListView();
 
-//
 
 
     }
