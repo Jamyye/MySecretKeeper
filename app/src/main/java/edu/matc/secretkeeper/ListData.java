@@ -1,5 +1,10 @@
 package edu.matc.secretkeeper;
 
+
+/**
+ * Created by jfish on 2/27/2018.
+ */
+
 import android.content.Intent;
 import android.database.Cursor;
 import android.support.annotation.Nullable;
@@ -26,10 +31,10 @@ public class ListData extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_list_data);
 
-            myListView = (ListView) findViewById(R.id.listView);
-            myDB = new MyDBHandler(this);
+        myListView = (ListView) findViewById(R.id.listView);
+        myDB = new MyDBHandler(this);
 
-            populateListView();
+        populateListView();
 
 
 
@@ -55,10 +60,10 @@ public class ListData extends AppCompatActivity {
         myListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-                String name = adapterView.getItemAtPosition(i).toString();
-                Log.d(TAG, "onItemClick: You Clicked on " + name);
+                String secret = adapterView.getItemAtPosition(i).toString();
+                Log.d(TAG, "onItemClick: You Clicked on " + secret);
 
-                Cursor data = myDB.getItemID(name); //get the id associated with that name
+                Cursor data = myDB.getItemID(secret); //get the id associated with that secret
                 int itemID = -1;
                 while(data.moveToNext()){
                     itemID = data.getInt(0);
@@ -67,11 +72,11 @@ public class ListData extends AppCompatActivity {
                     Log.d(TAG, "onItemClick: The ID is: " + itemID);
                     Intent editScreenIntent = new Intent(ListData.this, EditData.class);
                     editScreenIntent.putExtra("id",itemID);
-                    editScreenIntent.putExtra("name",name);
+                    editScreenIntent.putExtra("secret",secret);
                     startActivity(editScreenIntent);
                 }
                 else{
-                    toastMessage("No ID associated with that name");
+                    toastMessage("No ID associated with that secret");
                 }
             }
         });
@@ -81,5 +86,5 @@ public class ListData extends AppCompatActivity {
         Toast.makeText(this,message, Toast.LENGTH_SHORT).show();
     }
 
-    
+
 }

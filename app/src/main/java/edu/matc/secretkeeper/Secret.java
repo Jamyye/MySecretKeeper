@@ -1,9 +1,8 @@
 package edu.matc.secretkeeper;
 
+
 /**
- * secret class
- *
- * not sure if i need this, will keep for now
+ * Created by jfish on 2/27/2018.
  */
 
 public class Secret {
